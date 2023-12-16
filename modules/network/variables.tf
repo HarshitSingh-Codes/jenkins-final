@@ -34,7 +34,7 @@ variable "public_subnets_cidr" {
 variable "public_subnets_az" {
   description = "public subnet availability zones"
   type        = list(string)
-  default     = ["us-west-1b", "us-west-1c"]
+  default     = ["us-west-2a", "us-west-2b"]
 }
 variable "enable_map_public_ip_on_launch" {
   type    = bool
@@ -103,3 +103,17 @@ variable "pri_route_table_name" {
   default = "ninja-route-priv-01"
 }
 
+variable "existing_vpc_id" {
+  type    = string
+  default = "vpc-09e0f8a5b064ea2f4"
+}
+
+variable "existing_vpc_cidr" {
+  type    = string
+  default = "20.0.0.0/16"
+}
+
+variable "existing_rtb" {
+  type    = string
+  default = "rtb-0fbe6a2b3ec8e528c"
+}

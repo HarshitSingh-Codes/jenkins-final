@@ -89,6 +89,23 @@ variable "jenkins_nat_name" {
   #   default = "jenkins-nat-01"
 }
 
+/*--------------- # VPC peering ---------------*/
+
+variable "ninja_vpc_id" {
+  type    = string
+  default = "vpc-09e0f8a5b064ea2f4"
+}
+
+variable "ninja_vpc_cidr" {
+  type    = string
+  default = "20.0.0.0/16"
+}
+
+variable "ninja_rtb" {
+  type    = string
+  default = "rtb-0fbe6a2b3ec8e528c"
+}
+
 /*--------------- # Route Table ---------------*/
 
 variable "jenkins_pub_route_table_name" {

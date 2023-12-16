@@ -37,6 +37,12 @@ module "network_module" {
 
   nat_name = var.jenkins_nat_name
 
+  /*--------------- VPC peering ---------------*/
+  
+  existing_vpc_id = var.ninja_vpc_id
+  existing_rtb = var.ninja_rtb
+  existing_vpc_cidr = var.ninja_vpc_cidr
+
   /*--------------- Public RTB ---------------*/
 
   pub_route_table_name = var.jenkins_pub_route_table_name
@@ -46,12 +52,6 @@ module "network_module" {
   pri_route_table_name = var.jenkins_pri_route_table_name
 
 }
-# module "jenkins_iam" {
-#   source = "./modules/iam"
-#   instance_profile_name = "jenkins-instance-profile"
-#   iam_policy_name       = "jenkins-iam-policy"
-#   role_name             = "jenkins-role"
-# }
 
 # module "efs_module" {
 #   source = "./modules/efs"
@@ -68,3 +68,42 @@ module "network_module" {
 #   environment   = "dev"
 #   vpc_id        = "vpc-0a5ca4a92c2e10163"
 # }
+
+module "ec2_module" {
+  source                     = "./modules/ec2"
+
+  /*--------------- Bastion SG ---------------*/
+
+  bastion_sg_name = var.jenkins_bastion_sg_name
+  vpc_id          = module.network_module.vpc-id
+  ingress_ports   = var.jenkins_ingress_ports
+
+  /*--------------- Private SG ---------------*/
+
+  private_sg_name = var.jenkins_private_sg_name
+  public_subnets_cidr = [ var.jenkins_public_subnets_cidr[0] ]
+
+  /*--------------- Key Pair ---------------*/
+
+  key_pair = var.jenkins_key_pair
+
+  /*--------------- Bastion Instance ---------------*/
+
+  bastion_instance_name = var.jenkins_bastion_instance_name
+  bastion_instance_type = var.jenkins_bastion_instance_type
+  public_subnet_id = module.network_module.public-subnets-id[*]
+  ami_id = data.aws_ami.ubuntu.id
+
+  /*--------------- Private Instance ---------------*/
+
+  private_subnet_id = module.network_module.private-subnets-id[*]
+  private_instance_name = var.jenkins_private_instance_name
+  private_instance_type = var.jenkins_private_instance_type
+
+}
+
+module "efs_module" {
+  source = "./modules/efs"
+  private_subnet_id = module.network_module.private-subnets-id[*]
+  vpc_id          = module.network_module.vpc-id
+}

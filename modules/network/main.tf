@@ -57,6 +57,24 @@ resource "aws_nat_gateway" "ninja_nat" {
   depends_on = [aws_eip.elastic_ip]
 }
 
+/*--------------- VPC Peering ---------------*/
+
+resource "aws_vpc_peering_connection" "peer_01" {
+  peer_vpc_id   = var.existing_vpc_id
+  vpc_id        = aws_vpc.vpc-01.id
+  auto_accept = true 
+  tags = {
+    Name = "VPC-Peering"
+  }
+}
+
+resource "aws_route" "existing_rtb" {
+  route_table_id            = var.existing_rtb 
+  destination_cidr_block    = var.vpc_cidr 
+  vpc_peering_connection_id = aws_vpc_peering_connection.peer_01.id
+  depends_on = [ aws_vpc_peering_connection.peer_01 ]
+}
+
 /*--------------- Public Route Table ---------------*/
 
 resource "aws_route_table" "public_rtb" {
@@ -69,9 +87,16 @@ resource "aws_route_table" "public_rtb" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
   }
+  route {
+    cidr_block = var.existing_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer_01.id
+  }
+  
   tags = {
     Name = var.pub_route_table_name
   }
+
+  depends_on = [ aws_vpc_peering_connection.peer_01, aws_internet_gateway.igw ]
 }
 
 /*--------------- Public RTB Association ---------------*/
@@ -93,10 +118,15 @@ resource "aws_route_table" "private_rtb" {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.ninja_nat.id
   }
+  route {
+    cidr_block = var.existing_vpc_cidr
+    vpc_peering_connection_id = aws_vpc_peering_connection.peer_01.id
+  }
+
   tags = {
     Name = var.pri_route_table_name
   }
-  depends_on = [aws_nat_gateway.ninja_nat]
+  depends_on = [aws_nat_gateway.ninja_nat, aws_vpc_peering_connection.peer_01]
 }
 
 /*--------------- Private RTB Association ---------------*/
