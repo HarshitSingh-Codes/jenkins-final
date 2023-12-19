@@ -101,7 +101,10 @@ resource "aws_instance" "private_instance" {
   depends_on             = [aws_security_group.private-SG]
   tags = {
     Name = var.private_instance_name
-    group = "jenkins"
+    uid = "jenkins_master"
     ami = "jenkins-ami"
   }
+  provisioner "local-exec" {
+    command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  /home/harshit/Ninja`23/jenkins-setup/jenkins-final/master.yml --extra-vars \"efs_mount_point=${var.efs_mount_point}\"" 
+}
 }

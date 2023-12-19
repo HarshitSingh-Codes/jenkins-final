@@ -99,6 +99,7 @@ module "ec2_module" {
   private_subnet_id = module.network_module.private-subnets-id[*]
   private_instance_name = var.jenkins_private_instance_name
   private_instance_type = var.jenkins_private_instance_type
+  efs_mount_point = module.efs_module.efs_dns_name
 
 }
 

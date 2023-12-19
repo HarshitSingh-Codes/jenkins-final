@@ -69,3 +69,6 @@ variable "private_instance_name" {
 variable "private_subnet_id" {
     type    = list(string)
 }
+variable "efs_mount_point" {
+    type    = string
+}

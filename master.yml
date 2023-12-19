@@ -1,5 +1,5 @@
 ---
-- hosts: tag_Name_redhat
+- hosts: tag_uid_jenkins_master
   become: yes
   gather_facts: yes
 
