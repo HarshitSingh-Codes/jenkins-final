@@ -104,9 +104,9 @@ resource "aws_instance" "private_instance" {
     uid = "jenkins_master"
     ami = "jenkins-ami"
   }
-  provisioner "local-exec" {
-    command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  /home/ubuntu/jenkins-final/master.yml --extra-vars \"efs_mount_point=${var.efs_mount_point}\" --tags \"install\"" 
-}
+#   provisioner "local-exec" {
+#     command = "sleep 120; ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu  /home/ubuntu/jenkins-final/master.yml --extra-vars \"efs_mount_point=${var.efs_mount_point}\" --tags \"install\"" 
+# }
 }
 
 /*--------------- Target Group ---------------*/
