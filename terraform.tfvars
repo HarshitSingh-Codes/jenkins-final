@@ -53,7 +53,7 @@ jenkins_pri_route_table_name = "jenkins-route-priv-01"
 /*--------------- Security Module ---------------*/
 
 /*--------------- SG ---------------*/
-jenkins_ingress_ports = [22, 443, 80]
+jenkins_ingress_ports = [22, 443, 80, 8080, 2049]
 jenkins_bastion_sg_name = "bastion-SG"
 jenkins_private_sg_name = "private-SG"
 /*--------------- Key Pair ---------------*/
