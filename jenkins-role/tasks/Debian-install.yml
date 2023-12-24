@@ -27,7 +27,7 @@
 
 - name: Download specific Jenkins version.
   ansible.builtin.apt:
-    name: jenkins #={{ jenkins_version }}
+    name: jenkins={{ jenkins_version }}
     state: present
     update_cache: true
 
