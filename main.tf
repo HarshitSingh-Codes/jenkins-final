@@ -69,7 +69,7 @@ module "network_module" {
 #   vpc_id        = "vpc-0a5ca4a92c2e10163"
 # }
 
-module "ec2_module" {
+/* module "ec2_module" {
   source                     = "./modules/ec2"
 
   /*--------------- Bastion SG ---------------*/
@@ -107,4 +107,4 @@ module "efs_module" {
   source = "./modules/efs"
   private_subnet_id = module.network_module.private-subnets-id[*]
   vpc_id          = module.network_module.vpc-id
-}
+} */
