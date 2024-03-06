@@ -74,37 +74,37 @@ module "network_module" {
 
   /*--------------- Bastion SG ---------------*/
 
-  bastion_sg_name = var.jenkins_bastion_sg_name
+ /* bastion_sg_name = var.jenkins_bastion_sg_name
   vpc_id          = module.network_module.vpc-id
   ingress_ports   = var.jenkins_ingress_ports
 
   /*--------------- Private SG ---------------*/
 
-  private_sg_name = var.jenkins_private_sg_name
+ /* private_sg_name = var.jenkins_private_sg_name
   public_subnets_cidr = [ var.jenkins_public_subnets_cidr[0] ]
 
   /*--------------- Key Pair ---------------*/
 
-  key_pair = var.jenkins_key_pair
+ /* key_pair = var.jenkins_key_pair
 
   /*--------------- Bastion Instance ---------------*/
 
-  bastion_instance_name = var.jenkins_bastion_instance_name
+  /* bastion_instance_name = var.jenkins_bastion_instance_name
   bastion_instance_type = var.jenkins_bastion_instance_type
   public_subnet_id = module.network_module.public-subnets-id[*]
   ami_id = data.aws_ami.ubuntu.id
 
   /*--------------- Private Instance ---------------*/
 
-  private_subnet_id = module.network_module.private-subnets-id[*]
+ /* private_subnet_id = module.network_module.private-subnets-id[*]
   private_instance_name = var.jenkins_private_instance_name
   private_instance_type = var.jenkins_private_instance_type
   efs_mount_point = module.efs_module.efs_dns_name
 
 }
 
-module "efs_module" {
+/* module "efs_module" {
   source = "./modules/efs"
   private_subnet_id = module.network_module.private-subnets-id[*]
   vpc_id          = module.network_module.vpc-id
-} */
+} 
