@@ -1,13 +1,13 @@
 provider "aws" {
   region = "us-west-2"
 }
-terraform {
+/* terraform {
   backend "s3" {
     bucket = "tool-setup-bucket-terraform-state"
     key = "jenkins-State-File/terraform.tfstate"
     region = "us-west-2"
   }
-}
+} */
 module "network_module" {
   source = "./modules/network"
 
